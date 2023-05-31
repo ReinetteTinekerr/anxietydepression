@@ -59,8 +59,8 @@ export default function PaginatedTable({ responses }: PaginatedTableProps) {
 
     return <>
         {isModalOpen && (
-            <div className="fixed inset-0 flex items-center justify-center">
-                <div className="bg-white rounded-lg p-8 w-1/2 shadow-lg">
+            <div className="fixed inset-0 flex items-center justify-center z-40">
+                <div className="bg-white rounded-lg p-8 w-3/4  lg:w-1/2 shadow-lg">
                     <h2 className="text-lg font-bold mb-4">Compose Email</h2>
                     <form onSubmit={onSubmitEmail}>
                         <div className="mb-4">
@@ -124,7 +124,7 @@ export default function PaginatedTable({ responses }: PaginatedTableProps) {
                 </div>
             </div>
         )}
-        <div className="overflow-x-auto w-3/4">
+        <div className="overflow-x-auto w-5/6 text-sm md:text-base md:w-3/4">
             <table className="bg-white border border-gray-300 shadow-md min-w-full">
                 <thead>
                     <tr>
@@ -138,6 +138,8 @@ export default function PaginatedTable({ responses }: PaginatedTableProps) {
                         <th className="px-6 py-3 bg-gray-100 border-b border-gray-300 text-left">College</th>
                         <th className="px-6 py-3 bg-gray-100 border-b border-gray-300 text-left">Course</th>
                         <th className="px-6 py-3 bg-gray-100 border-b border-gray-300 text-left">Email</th>
+                        <th scope="col" className="right-48 md:sticky px-2 py-3 bg-gray-100">Score CLF</th>
+                        <th scope="col" className="right-24 md:sticky px-2 py-3 bg-gray-100">Comment CLF</th>
                         <th scope="col" className="right-0 sticky px-2 py-3 bg-gray-100">Send Email</th>
                     </tr>
                 </thead>
@@ -145,10 +147,12 @@ export default function PaginatedTable({ responses }: PaginatedTableProps) {
                     {currentResponses.map((item, index) => {
                         const date = item.createdAt.toDate();
                         const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+                        const parsedCommentPrediction: { predicted: string } = JSON.parse(item.commentClf!)
+                        const parsedScorePrediction: { predicted: string } = JSON.parse(item.scoreClf!)
                         return (
                             <tr key={index}>
                                 <td className="px-6 py-4 border-b border-gray-300">{formattedDate}</td>
-                                <td className="px-6 py-4 border-b border-gray-300">{item.bai}</td>
+                                <td className="px-6 py-4 border-b border-gray-300">{item.bdi}</td>
                                 <td className="px-6 py-4 border-b border-gray-300">{item.bai}</td>
                                 <td className="px-6 py-4 border-b border-gray-300">{item.comment}</td>
                                 <td className=" py-4 border-b border-gray-300">{item.user.username}</td>
@@ -157,6 +161,8 @@ export default function PaginatedTable({ responses }: PaginatedTableProps) {
                                 <td className="px-6 py-4 border-b border-gray-300">{item.user.college}</td>
                                 <td className="px-6 py-4 border-b border-gray-300">{item.user.course}</td>
                                 <td className="px-6 py-4 border-b border-gray-300">{item.user.email}</td>
+                                <td className="right-48 text-white md:sticky px-6 py-4 border-b bg-slate-500 border-gray-300">{parsedScorePrediction.predicted.toUpperCase()}</td>
+                                <td className="right-24 text-white md:sticky px-6 py-4 border-b bg-slate-500 border-gray-300">{parsedCommentPrediction.predicted.toUpperCase()}</td>
                                 <td scope="row" className={`right-0 sticky border bg-gray-100 hover:bg-gray-300 px-6 py-4 font-medium text-sm md:text-lg text-gray-900`}>
                                     <button onClick={() => onClickSendEmail(item.user.email)} className="">
                                         Send
