@@ -76,9 +76,72 @@ export default function Page() {
         }
     }
 
+    const countSentiments = (data: IResponse[]) => {
+        const counts = {
+            low: 0,
+            moderate: 0,
+            severe: 0,
+
+            normal: 0,
+            mild: 0,
+            borderline: 0,
+            moderateDepresssion: 0,
+            severeDepression: 0,
+            extreme: 0,
+        };
+
+        data.forEach((arr) => {
+
+            if (arr.bai <= 21) {
+                counts.low++;
+            } else if (arr.bai <= 35) {
+                counts.moderate++;
+            } else if (arr.bai >= 35) {
+                counts.severe++;
+            }
+            if (arr.bdi <= 10) {
+                counts.normal++;
+            } else if (arr.bdi <= 16) {
+                counts.mild++;
+            } else if (arr.bdi <= 20) {
+                counts.borderline++;
+            } else if (arr.bdi <= 30) {
+                counts.moderateDepresssion++;
+            } else if (arr.bdi <= 40) {
+                counts.severeDepression++;
+            } else if (arr.bdi >= 40) {
+                counts.extreme++;
+            }
+        });
+
+        return counts;
+    }
+
+    const sentimentCounts = countSentiments(responses as IResponse[]);
+
+    const sentimentData = [
+        { label: 'Total Responses', value: responses?.length, color: 'blue' },
+        { label: 'BAI Score', value: <>Low: {sentimentCounts.low}<br />Moderate: {sentimentCounts.moderate}<br />Severe: {sentimentCounts.severe}</>, color: 'blue' },
+        { label: 'BDI Score', value: <div className="text-blue-800">Normal: {sentimentCounts.normal}<br />Mild: {sentimentCounts.mild}<br />Borderline: {sentimentCounts.borderline}</div>, color: 'blue' },
+        { label: 'BDI Score', value: <div className="text-red-800">Moderate Depression: {sentimentCounts.moderateDepresssion}<br />Severe Depression: {sentimentCounts.severeDepression}<br />Extreme Depression: {sentimentCounts.extreme}</div>, color: 'blue' },
+    ];
+
     return (
         <>
             <AdminNavbar />
+            <div className="h-5"></div>
+            <div className="flex justify-center space-x-4 mt-8">
+                {sentimentData.map((sentiment, index) => {
+                    const textColor = "text-" + sentiment.color + "-500";
+                    const classDesign = "text-2xl font-bold mt-2" + textColor;
+                    return (
+                        <div key={index} className="bg-white rounded-lg shadow-lg p-6 m-2">
+                            <h2 className={`text-xl font-semibold text-gray-600`}>{sentiment.label}</h2>
+                            <p className={classDesign}>{sentiment.value}</p>
+                        </div>
+                    );
+                })}
+            </div>
             <div className="h-5"></div>
             <div className="flex justify-center">
                 <PaginatedTable responses={responses! as IResponse[]} />
