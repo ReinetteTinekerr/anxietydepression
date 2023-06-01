@@ -147,8 +147,8 @@ export default function PaginatedTable({ responses }: PaginatedTableProps) {
                     {currentResponses.map((item, index) => {
                         const date = item.createdAt.toDate();
                         const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-                        const parsedCommentPrediction: { predicted: string } = JSON.parse(item.commentClf!)
-                        const parsedScorePrediction: { predicted: string } = JSON.parse(item.scoreClf!)
+                        const parsedCommentPrediction: { predicted: string } = item.commentClf !== undefined ? JSON.parse(item.commentClf!) : { predicted: "" };
+                        const parsedScorePrediction: { predicted: string } = item.scoreClf !== undefined ? JSON.parse(item.scoreClf!) : { predicted: "" };
                         return (
                             <tr key={index}>
                                 <td className="px-6 py-4 border-b border-gray-300">{formattedDate}</td>

@@ -39,7 +39,6 @@ export default function Page() {
     for (const response of responses!) {
         const { id, bai, bdi, comment, user, commentClf, scoreClf } = response as IResponse;
         if (commentClf === undefined) {
-
             fetch(`http://localhost:8000/models/rf/comment?comment=${comment}`, {
                 method: "POST",
                 headers: {
@@ -52,7 +51,7 @@ export default function Page() {
                     updateDoc(documentRef, { "commentClf": JSON.stringify(data) }).then((res) => {
                         console.log(res);
                     });
-                })
+                }).catch((error) => { })
         } else if (scoreClf == undefined) {
 
             fetch(`http://localhost:8000/models/rf/score`, {
@@ -73,7 +72,7 @@ export default function Page() {
                     updateDoc(documentRef, { "scoreClf": JSON.stringify(data) }).then((res) => {
                         console.log(res);
                     });
-                })
+                }).catch((error) => { })
         }
     }
 
