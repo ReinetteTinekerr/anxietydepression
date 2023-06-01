@@ -23,7 +23,7 @@ export default function Home() {
           style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}>
           <div className="flex justify-center items-center h-full">
             <div className="text-center text-white px-6 md:px-12">
-              <h1 className="text-5xl md:text-7xl font-bold mt-0 mb-6"> Anxiety And Depression Test</h1>
+              <h1 className="text-5xl md:text-5xl font-bold mt-0 mb-6">Empowering Minds:<br /> <span className='bg-gradient-to-r from-blue-700 to-red-500 bg-clip-text text-transparent'>Assessing Anxiety </span> for Improved Well-being</h1>
               <h3 className="text-xl font-semibold italic mb-8">Anything That Costs You Your Peace Is Too Expensive.</h3>
               <Link href="/beck-inventory-test">
                 <button type="button"
