@@ -8,10 +8,12 @@ import { useState, useRef, useEffect } from "react";
 import { getDoc, doc, addDoc, Timestamp, collection } from "firebase/firestore";
 import { db } from "../../utils/firebaseInit";
 import CommentBox from "@/components/Comment";
+import { useRouter } from 'next/navigation';
 
 
 
 export default function Page() {
+    const router = useRouter();
     const [renderIndex, setRenderIndex] = useState(0);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const buttonRefNext = useRef<HTMLButtonElement>(null);
@@ -73,6 +75,7 @@ export default function Page() {
                     localStorage.setItem("id", res.id);
                     setShowPopup(true);
                     setSubmitted(true);
+                    router.replace('/thank-you')
                 })
             } catch (error) {
 
